@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+    {% endblock %}
+    <link rel="stylesheet" href="{% static 'main/css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <img src="{% static 'main/img/logo.png' %}" alt="logo" width="150">
+            </div>
+            {% include 'main/nav.html' %}
+        </aside>
+        <main class="content">
+            {% block content %}
+            <h1>Маркетплейс товаров с играми на Nintendo Switch\Playstation. Заказать с доставкой.</h1>
+            {% endblock %}
+        </main>
+    </div>
+
+{% include 'main/footer.html' %}
+
+</body>
+</html>
