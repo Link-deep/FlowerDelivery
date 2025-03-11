@@ -1,6 +1,21 @@
 <ul class="nav">
+    {% if user.is_authenticated %}
+        <span class="username">Привет, {{ user.username }}!</span>
+    <li><a href="{% url 'profile' %}" class="profile-link">Профиль</a></li>
+    <li><a href="{% url 'logout' %}" class="logout-btn">Выйти</a></li>
+                {% else %}
+    <li><a href="{% url 'login' %}">Вход</a></li>
+    <li><a href="{% url 'register' %}">Регистрация</a></li>
+                {% endif %}
+
+    <li></li>
     <li><a href="{% url 'home' %}">Главная страница</a></li>
     <li><a href="{% url 'catalog' %}">Каталог</a></li>
     <li><a href="">Добавить игру</a></li>
     <li><a href="">Контакты</a></li>
+
 </ul>
+
+<div class="user-menu">
+
+            </div>

@@ -84,6 +84,8 @@ DATABASES = {
 }
 
 
+
+
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -133,3 +135,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Своя таблица пользователей
+AUTH_USER_MODEL = 'users.CustomUser'
+
+# Отключаем проверку пароля на сложность
+AUTH_PASSWORD_VALIDATORS = []
+
+
+

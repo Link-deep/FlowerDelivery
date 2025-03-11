@@ -1,0 +1,129 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    <title>Маркетплейс товаров с играми на Nintendo Switch. Регистрация пользователя.</title>
+
+<style>
+/* Контейнер формы регистрации */
+.register-container {
+    max-width: 400px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Заголовок */
+.register-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+/* Поля формы */
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.form-group input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Кнопка регистрации */
+.register-btn {
+    width: 100%;
+    background: #28a745;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.register-btn:hover {
+    background: #218838;
+}
+
+/* Ссылка на вход */
+.login-link {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.login-link a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+</style>
+{% endblock %}
+
+
+
+{% block content %}
+    <div class="register-container">
+        <h2>Регистрация</h2>
+        <form method="post" class="register-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">Логин</label>
+                {{ form.username }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">Email</label>
+                {{ form.email }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.phone_number.id_for_label }}">Телефон</label>
+                {{ form.phone_number }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password1.id_for_label }}">Пароль</label>
+                {{ form.password1 }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password2.id_for_label }}">Подтвердите пароль</label>
+                {{ form.password2 }}
+            </div>
+
+            <button type="submit" class="register-btn">Зарегистрироваться</button>
+        </form>
+
+        <p class="login-link">
+            Уже есть аккаунт? <a href="{% url 'login' %}">Войти</a>
+        </p>
+    </div>
+{% endblock %}
+
