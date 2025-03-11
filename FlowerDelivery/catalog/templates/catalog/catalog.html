@@ -1,0 +1,204 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    <title>Маркетплейс товаров с играми на Nintendo Switch. КАТАЛОГ.</title>
+
+<style>
+/* Контейнер для карточек */
+.catalog-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 40px;
+    padding: 20px;
+    justify-content: center;
+}
+
+/* Стили карточки товара */
+.game-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    width: 250px; /* Минимальная ширина */
+    height: 500px; /* Высота карточки */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.game-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Изображение  игры */
+.game-card img {
+    width: 100%;
+    height: 250px; /* Фиксированная высота */
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+/* Название игры */
+.game-card h2 {
+    font-size: 16px;
+    color: #333;
+    margin: 10px 0;
+    height: 40px; /* Фиксированная высота заголовка */
+    overflow: hidden;
+}
+
+/* Цена (обычная) перечеркнутая */
+.game-card p.price-old {
+    text-decoration: line-through;
+    color: red;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+/* Скидка */
+.game-card p.discount {
+    color: red;
+    font-weight: bold;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+/* Итоговая цена со скидкой */
+.game-card p.final-price {
+    color: #27ae60;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Кнопки */
+.game-card .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.game-card button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.game-card .add-to-cart {
+    background: #f39c12;
+    color: white;
+}
+
+.game-card .add-to-cart:hover {
+    background: #e67e22;
+}
+
+.game-card .buy-now {
+    background: #27ae60;
+    color: white;
+}
+
+.game-card .buy-now:hover {
+    background: #2ecc71;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    .catalog-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .catalog-container {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+/* Стили для блока пагинации */
+.pagination {
+    display: flex;
+    justify-content: center; /* Центрирование */
+    align-items: center;
+    gap: 10px; /* Расстояние между элементами */
+    margin: 20px 0;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Стили для ссылок пагинации */
+.pagination a {
+    text-decoration: none;
+    background: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+.pagination a:hover {
+    background: #0056b3;
+}
+
+/* Стиль для активной страницы */
+.pagination span {
+    background: #f0f0f0;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+    <h1 style="text-align: center;">КАТАЛОГ</h1>
+
+    <!-- Контейнер для карточек (Добавлен) -->
+    <div class="catalog-container">
+        {% for game in games %}
+            <div class="game-card">
+                <img src="{{ game.image.url }}" alt="{{ game.title }}">
+                <h2>{{ game.title }}</h2>
+                {% if game.discount_percent > 0 %}
+                    <p class="price-old">Старая цена: {{ game.price }} ₽</p>
+                    <p class="discount">Скидка: {{ game.discount_percent }}%</p>
+                    <p class="final-price">Цена со скидкой: {{ game.get_discounted_price }} ₽</p>
+                {% else %}
+                    <p class="final-price">Цена: {{ game.price }} ₽</p>
+                {% endif %}
+                <div class="buttons">
+                    <button class="add-to-cart">Добавить в корзину</button>
+                    <button class="buy-now">Купить сейчас</button>
+                </div>
+            </div>
+        {% endfor %}
+    </div> <!-- Закрытие catalog-container -->
+
+
+ <!-- Пагинация -->
+    <div class="pagination">
+        {% if games.has_previous %}
+            <a href="?page=1">Первая</a>
+            <a href="?page={{ games.previous_page_number }}">«</a>
+        {% endif %}
+
+        <span>Страница {{ games.number }} из {{ games.paginator.num_pages }}</span>
+
+        {% if games.has_next %}
+            <a href="?page={{ games.next_page_number }}">»</a>
+            <a href="?page={{ games.paginator.num_pages }}">Последняя</a>
+        {% endif %}
+    </div>
+
+
+{% endblock %}
