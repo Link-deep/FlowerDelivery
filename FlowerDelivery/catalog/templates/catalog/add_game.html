@@ -1,0 +1,122 @@
+{% extends 'main/layout.html' %}
+
+
+{% block title %}
+    <title>Маркетплейс товаров с играми на Nintendo Switch. Добавить игры.</title>
+
+<style>
+/* Контейнер для формы */
+.admin-container {
+    max-width: 500px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Поля формы */
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.form-input, .form-textarea, .form-select, .form-file {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.form-input:focus, .form-textarea:focus, .form-select:focus {
+    border-color: #ff5733;
+    box-shadow: 0 0 5px rgba(255, 87, 51, 0.5);
+}
+
+/* Кнопка */
+.admin-btn {
+    width: 100%;
+    background: #ff5733;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.admin-btn:hover {
+    background: #c70039;
+}
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+    <div class="admin-container">
+        <h2>Добавить игру</h2>
+        <form method="post" enctype="multipart/form-data" class="admin-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="{{ form.title.id_for_label }}">Название игры</label>
+                {{ form.title }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.image.id_for_label }}">Изображение</label>
+                {{ form.image }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.description.id_for_label }}">Описание</label>
+                {{ form.description }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.genre.id_for_label }}">Жанр</label>
+                {{ form.genre }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.publisher.id_for_label }}">Издатель</label>
+                {{ form.publisher }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.platform.id_for_label }}">Платформа</label>
+                {{ form.platform }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.stock.id_for_label }}">Количество на складе</label>
+                {{ form.stock }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.price.id_for_label }}">Цена</label>
+                {{ form.price }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.discount_percent.id_for_label }}">Скидка (%)</label>
+                {{ form.discount_percent }}
+            </div>
+
+            <button type="submit" class="admin-btn">Добавить</button>
+        </form>
+    </div>
+{% endblock %}
+

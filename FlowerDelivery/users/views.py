@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout, authenticate
-from .forms import UserRegisterForm, UserLoginForm
+from .forms import UserRegisterForm, UserLoginForm, ProfileEditForm
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 
 
 def register_view(request):
@@ -36,3 +38,24 @@ def logout_view(request):
 
 def profile_view(request):
     return render(request, 'users/profile.html')
+
+
+@login_required
+def edit_profile(request):
+    if request.method == "POST":
+        user = request.user
+
+        # Обновляем поля, если они переданы
+        if "phone" in request.POST:
+            user.phone_number = request.POST["phone"]
+        if "birth_date" in request.POST:
+            user.birth_date = request.POST["birth_date"]
+        if "address" in request.POST:
+            user.address = request.POST["address"]
+        if "avatar" in request.FILES:
+            user.avatar = request.FILES["avatar"]
+
+        user.save()
+        return JsonResponse({"status": "success"})
+
+    return render(request, "users/profile.html")

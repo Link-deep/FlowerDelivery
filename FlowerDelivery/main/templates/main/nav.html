@@ -11,7 +11,9 @@
     <li></li>
     <li><a href="{% url 'home' %}">Главная страница</a></li>
     <li><a href="{% url 'catalog' %}">Каталог</a></li>
-    <li><a href="">Добавить игру</a></li>
+    {% if user.is_authenticated and user.is_staff %}
+    <li><a href="{% url 'add_game' %}">Добавить игру</a></li>
+    {% endif %}
     <li><a href="">Контакты</a></li>
 
 </ul>
