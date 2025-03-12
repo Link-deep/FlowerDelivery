@@ -170,7 +170,7 @@
                 <img src="{{ game.image.url }}" alt="{{ game.title }}">
                 <h2>{{ game.title }}</h2>
                 {% if game.discount_percent > 0 %}
-                    <p class="price-old">Старая цена: {{ game.price }} ₽</p>
+                    <p class="price-old">Цена: {{ game.price }} ₽</p>
                     <p class="discount">Скидка: {{ game.discount_percent }}%</p>
                     <p class="final-price">Цена со скидкой: {{ game.get_discounted_price }} ₽</p>
                 {% else %}
@@ -178,7 +178,7 @@
                 {% endif %}
                 <div class="buttons">
                     <button class="add-to-cart">Добавить в корзину</button>
-                    <button class="buy-now">Купить сейчас</button>
+                    <button class="buy-now" onclick="window.location.href='{% url 'create_order' game.id %}'">Купить сейчас</button>
                 </div>
             </div>
         {% endfor %}

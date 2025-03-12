@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout, authenticate
-from .forms import UserRegisterForm, UserLoginForm, ProfileEditForm
+from django.contrib.auth import login, logout
+from .forms import UserRegisterForm, UserLoginForm
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 
@@ -36,12 +36,8 @@ def logout_view(request):
     return redirect('login')
 
 
-def profile_view(request):
-    return render(request, 'users/profile.html')
-
-
 @login_required
-def edit_profile(request):
+def profile_view(request):
     if request.method == "POST":
         user = request.user
 

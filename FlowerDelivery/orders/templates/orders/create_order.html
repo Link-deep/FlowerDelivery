@@ -1,0 +1,182 @@
+{% extends 'main/layout.html' %}
+
+
+{% block title %}
+    <title>Маркетплейс товаров с играми на Nintendo Switch. Оформить заказ.</title>
+
+<style>
+    /* Контейнер заказа */
+.order-container {
+    max-width: 800px;
+    min-width: 600px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Основной блок заказа */
+.order-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Изображение товара */
+.order-image img {
+    width: 120px;
+    height: auto;
+    border-radius: 5px;
+    flex: 0 0 120px; /* Фиксированная ширина */
+}
+
+/* Информация о товаре */
+.order-details {
+    flex: 1; /* Центральный блок занимает доступное пространство */
+}
+
+.order-details h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+/* Количество товара */
+.order-details input {
+    width: 50px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Блок с адресом и ценой */
+.order-summary {
+    flex: 0 0 250px;
+    max-width: 250px;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    text-align: center;
+    box-sizing: border-box; /* Гарантирует, что padding входит в ширину */
+}
+
+.order-summary textarea {
+    width: 100%;
+    height: 60px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box; /* Теперь padding НЕ увеличивает ширину */
+}
+
+.order-summary p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+/* Кнопка оформления заказа */
+.order-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.order-btn:hover {
+    background: #0056b3;
+}
+
+/* Блок с данными пользователя */
+.order-user-info {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f1f1f1;
+    border-radius: 5px;
+}
+
+.order-user-info h3 {
+    margin-top: 0;
+}
+
+/* Цена (обычная) перечеркнутая */
+.order-price-old{
+    text-decoration: line-through;
+    color: red;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+<div class="order-container">
+    <h2>Оформление заказа</h2>
+
+    <form method="post" action="{% url 'create_order' game.id %}">
+                {% csrf_token %}
+
+    <div class="order-content">
+        <!-- Левая часть: Изображение товара -->
+        <div class="order-image">
+            <img src="{{ game.image.url }}" alt="{{ game.title }}">
+        </div>
+
+        <!-- Центральная часть: Информация о товаре -->
+        <div class="order-details">
+            <h3>{{ game.title }}</h3>
+            <p>Количество:
+                <input type="number" id="quantity" name="quantity" value="1" min="1" max="10" onchange="updateTotalPrice()">
+            </p>
+        </div>
+
+        <!-- Правая часть: Цена и адрес -->
+        <div class="order-summary">
+                <label for="address">Адрес доставки:</label>
+                <textarea id="address" name="address" required>{{ user.address }}</textarea>
+
+                <p class="order-price-old">Цена: <span id="price">{{ game.price }}</span> ₽</p>
+                <p>Скидка: <span id="discount">{{ game.discount_percent }}</span>%</p>
+                <p><strong>Цена со скидкой: <span id="discounted-price">{{ game.get_discounted_price }}</span> ₽</strong></p>
+
+                <button type="submit" class="order-btn">ОФОРМИТЬ ЗАКАЗ</button>
+        </div>
+    </div>
+
+    <!-- Данные пользователя -->
+    <div class="order-user-info">
+        <h3>Данные покупателя</h3>
+        <p><strong>Имя пользователя:</strong> {{ user.username }}</p>
+        <p><strong>Телефон:</strong> {{ user.phone_number }}</p>
+    </div>
+
+      <!-- Данные пользователя -->
+            <input type="hidden" id="full_name" name="full_name" value="{{ user.username }}" required>
+            <input type="hidden" id="phone" name="phone" value="{{ user.phone_number }}" required>
+
+
+    </form>
+</div>
+
+<script>
+    function updateTotalPrice() {
+        let quantity = document.getElementById("quantity").value;
+        let price = parseFloat(document.getElementById("price").innerText);
+        let discount = parseFloat(document.getElementById("discount").innerText);
+        let discountedPrice = price * (1 - discount / 100);
+        let totalPrice = (discountedPrice * quantity).toFixed(2);
+
+        document.getElementById("discounted-price").innerText = totalPrice;
+    }
+</script>
+
+{% endblock %}

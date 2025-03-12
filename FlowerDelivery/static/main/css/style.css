@@ -93,3 +93,20 @@ h1, h2, h3 {
 
 
 
+/* Кнопка выхода */
+.logout-btn {
+    display: block;
+    text-decoration: none;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    background: red;
+    color: white;
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    opacity: 0.8;
+}

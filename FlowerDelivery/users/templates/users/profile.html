@@ -16,6 +16,13 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Заголовок */
+.profile-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
 .input-container {
     display: flex;
     align-items: center; /* Выравниваем всё по одной линии */
@@ -176,7 +183,7 @@
             formData.append("csrfmiddlewaretoken", "{{ csrf_token }}");
             formData.append(field, input.value);
 
-            fetch("{% url 'edit_profile' %}", {
+            fetch("{% url 'profile' %}", {
                 method: "POST",
                 body: formData
             })
@@ -199,7 +206,7 @@
             formData.append("csrfmiddlewaretoken", "{{ csrf_token }}");
             formData.append("avatar", document.getElementById("avatar-input").files[0]);
 
-            fetch("{% url 'edit_profile' %}", {
+            fetch("{% url 'profile' %}", {
                 method: "POST",
                 body: formData
             })

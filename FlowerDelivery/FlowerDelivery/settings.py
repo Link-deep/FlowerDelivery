@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'main', # Добавляем приложение main FlowerDelivery/main/
     'catalog',
     'users',
+    'orders'
 ]
 
 MIDDLEWARE = [
