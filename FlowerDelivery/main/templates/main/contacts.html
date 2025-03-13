@@ -1,0 +1,89 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    <title>Контакты</title>
+<style>
+    /* Контейнер страницы */
+.contacts-container {
+    max-width: 700px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+/* Блоки с контактной информацией */
+.contact-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+.contact-section h3 {
+    color: #1e3a8a;
+}
+
+/* Социальные сети */
+.social-media {
+    margin-top: 20px;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.social-icon {
+    text-decoration: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+    transition: 0.3s;
+}
+
+.telegram { background: #0088cc; }
+.vk { background: #4c75a3; }
+.youtube { background: #ff0000; }
+
+.social-icon:hover {
+    opacity: 0.8;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="contacts-container">
+    <h2>Контакты</h2>
+
+    <div class="contact-section">
+        <h3>Партнёрам</h3>
+        <p>📩 Email: <a href="mailto:partners@game.ru">partners@game.ru</a></p>
+    </div>
+
+    <div class="contact-section">
+        <h3>Пресс-служба</h3>
+        <p>📩 Email: <a href="mailto:press@game.ru">press@game.ru</a></p>
+    </div>
+
+    <div class="contact-section">
+        <h3>Юридический адрес</h3>
+        <p>📍 142181, Московская область, д. Коледино</p>
+    </div>
+
+    <div class="social-media">
+        <h3>Мы в социальных сетях</h3>
+        <div class="social-links">
+            <a href="https://t.me/example" target="_blank" class="social-icon telegram">Telegram</a>
+            <a href="https://vk.com/example" target="_blank" class="social-icon vk">VK</a>
+            <a href="https://www.youtube.com/example" target="_blank" class="social-icon youtube">YouTube</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

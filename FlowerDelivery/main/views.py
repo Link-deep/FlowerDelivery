@@ -7,13 +7,7 @@ from django.http import HttpResponse
 def index(request):
     return render(request, 'main/index.html')
 
-def products(request):
-    data = {
-        "caption":"Название продукта"
-    }
-    return HttpResponse(" request, {'caption': 'Название продукта'} ")
-
-def cart(request):
-    return HttpResponse("<h1>Это страница about на Django</h1>")
+def contacts_view(request):
+    return render(request, 'main/contacts.html')
 
 
