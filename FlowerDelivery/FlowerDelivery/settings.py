@@ -144,4 +144,11 @@ AUTH_USER_MODEL = 'users.CustomUser'
 AUTH_PASSWORD_VALIDATORS = []
 
 
+# Настройки Telegram API
+TELEGRAM_BOT_TOKEN = "8019705765:AAFHojWt6lPUbE62KyBwRWpwbMj7MrETABw"  # Замените на реальный токен бота
+TELEGRAM_CHAT_ID = "168194604"  # Замените на реальный chat_id
+SITE_URL = "http://127.0.0.1:8000"
+
+
+
 

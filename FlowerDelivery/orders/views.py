@@ -7,6 +7,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.http import JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
+from .utils import send_telegram_message
 
 
 @login_required
@@ -27,6 +28,10 @@ def create_order(request, game_id):
             order.quantity = form.cleaned_data.get('quantity', 1)  # Количество (по умолчанию 1)
             order.total_price = game.get_discounted_price() * order.quantity  # Считаем сумму заказа
             order.save()
+
+            # Отправляем уведомление в Telegram
+            send_telegram_message(order)
+
             return redirect('order_success')
         else:
             print("Форма не валидна. Ошибки:", form.errors)  # Выведет ошибки в консоль
