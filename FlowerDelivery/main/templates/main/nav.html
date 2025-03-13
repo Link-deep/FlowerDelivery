@@ -2,6 +2,10 @@
     {% if user.is_authenticated %}
         <span class="username">Привет, {{ user.username }}!</span>
     <li><a href="{% url 'profile' %}" class="profile-link">Профиль</a></li>
+    {% if user.is_authenticated and user.is_staff %}
+    <li><a href="{% url 'add_game' %}">Добавить игру</a></li>
+    <li><a href="{% url 'list_orders' %}">Список всех заказов</a></li>
+    {% endif %}
     <li><a href="{% url 'logout' %}" class="logout-btn">Выйти</a></li>
                 {% else %}
     <li><a href="{% url 'login' %}">Вход</a></li>
@@ -11,9 +15,6 @@
     <li></li>
     <li><a href="{% url 'home' %}">Главная страница</a></li>
     <li><a href="{% url 'catalog' %}">Каталог</a></li>
-    {% if user.is_authenticated and user.is_staff %}
-    <li><a href="{% url 'add_game' %}">Добавить игру</a></li>
-    {% endif %}
     <li><a href="">Контакты</a></li>
 
 </ul>

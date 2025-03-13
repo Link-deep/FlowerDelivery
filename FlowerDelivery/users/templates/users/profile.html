@@ -100,6 +100,38 @@
     opacity: 0.8;
 }
 
+/* Стили блока заказов */
+.profile-orders {
+    margin-top: 30px;
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили таблицы заказов */
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.orders-table th, .orders-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.orders-table th {
+    background: #007bff;
+    color: white;
+}
+
+.orders-table tbody tr:nth-child(even) {
+    background: #f2f2f2;
+}
+
+
 
 </style>
 
@@ -159,7 +191,45 @@
             </div>
         </div>
 
-    </div>
+        </div>
+
+        <!-- Блок заказов пользователя -->
+        <div class="profile-orders">
+            <h3>Мои заказы</h3>
+
+            {% if orders %}
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>№ Заказа</th>
+                            <th>Игра</th>
+                            <th>Количество</th>
+                            <th>Сумма</th>
+                            <th>Статус</th>
+                            <th>Дата</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <td>#{{ order.id }}</td>
+                            <td>{{ order.game.title }}</td>
+                            <td>{{ order.quantity }}</td>
+                            <td>{{ order.total_price }} ₽</td>
+                            <td>{{ order.get_status_display }}</td>
+                            <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>У вас пока нет заказов.</p>
+            {% endif %}
+        </div>
+
+
+
+
 
     <script>
         // Разблокировать поле для редактирования

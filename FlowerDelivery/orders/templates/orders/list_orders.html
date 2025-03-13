@@ -1,0 +1,106 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    <title>Дла Администратора. Список всех заказов.</title>
+<style>
+    /* Стили таблицы заказов */
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.orders-table th, .orders-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.orders-table th {
+    background: #007bff;
+    color: white;
+}
+
+.orders-table tbody tr:nth-child(even) {
+    background: #f2f2f2;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+<!-- Блок заказов пользователя -->
+        <div class="profile-orders">
+            <h3>СПИСОК ВСЕХ ЗАКАЗОВ</h3>
+
+            {% if orders %}
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>№ Заказа</th>
+                            <th>Пользователь</th>
+                            <th>Игра</th>
+                            <th>Количество</th>
+                            <th>Сумма</th>
+                            <th>Статус</th>
+                            <th>Дата</th>
+                            <th>Адрес Доставки</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            {% for order in orders %}
+                            <tr>
+                                <td>#{{ order.id }}</td>
+                                <td>{{ order.user.username }}</td>
+                                <td>{{ order.game.title }}</td>
+                                <td>{{ order.quantity }}</td>
+                                <td>{{ order.total_price }} ₽</td>
+                                <td>
+                                    <select class="status-select" onchange="updateOrderStatus({{ order.id }}, this)">
+                                        {% for key, value in order.STATUS_CHOICES %}
+                                            <option value="{{ key }}" {% if order.status == key %}selected{% endif %}>
+                                                {{ value }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+                                <td>{{ order.address }}</td>
+                            </tr>
+                            {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>Ззаказов еще нет.</p>
+            {% endif %}
+        </div>
+
+
+<script>
+    function updateOrderStatus(orderId, selectElement) {
+        let newStatus = selectElement.value;
+
+        fetch("{% url 'update_order_status' %}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: JSON.stringify({
+                "order_id": orderId,
+                "status": newStatus
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                alert("Статус заказа обновлён!");
+            } else {
+                alert("Ошибка обновления статуса!");
+            }
+        });
+    }
+</script>
+
+{% endblock %}

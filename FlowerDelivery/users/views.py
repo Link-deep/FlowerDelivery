@@ -3,6 +3,7 @@ from django.contrib.auth import login, logout
 from .forms import UserRegisterForm, UserLoginForm
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from orders.models import Order  # Импортируем модель заказов
 
 
 def register_view(request):
@@ -38,10 +39,13 @@ def logout_view(request):
 
 @login_required
 def profile_view(request):
-    if request.method == "POST":
-        user = request.user
+    user = request.user  # Получаем текущего пользователя
 
-        # Обновляем поля, если они переданы
+    # Получаем все заказы пользователя, сортируем по дате (новые сверху)
+    orders = Order.objects.filter(user=user).order_by('-created_at')
+
+    if request.method == "POST":
+        # Обновляем поля пользователя, если они переданы
         if "phone" in request.POST:
             user.phone_number = request.POST["phone"]
         if "birth_date" in request.POST:
@@ -54,4 +58,5 @@ def profile_view(request):
         user.save()
         return JsonResponse({"status": "success"})
 
-    return render(request, "users/profile.html")
+    # Передаём заказы в шаблон
+    return render(request, "users/profile.html", {"orders": orders})
